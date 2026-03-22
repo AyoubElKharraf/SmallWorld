@@ -1,0 +1,46 @@
+# Déploiement local / préproduction : API + frontend + MySQL
+# Usage : copier .env.docker.example vers .env puis : docker compose up --build -d
+# Première fois : attendre MySQL, puis : docker compose exec app npm run seed:admin
+
+services:
+  db:
+    image: mysql:8.4
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootsecret}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-smallworld}
+      MYSQL_USER: ${MYSQL_USER:-voyageur}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:-voyageur}
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./server/db/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+    ports:
+      - "${MYSQL_PORT:-3306}:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+      start_period: 25s
+
+  app:
+    build: .
+    restart: on-failure
+    ports:
+      - "${APP_PORT:-8080}:3001"
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: ${MYSQL_USER:-voyageur}
+      DB_PASSWORD: ${MYSQL_PASSWORD:-voyageur}
+      DB_NAME: ${MYSQL_DATABASE:-smallworld}
+      JWT_SECRET: ${JWT_SECRET:-changez-moi-en-production-docker}
+      CORS_ORIGIN: ${CORS_ORIGIN:-}
+      NODE_ENV: production
+      SERVE_STATIC_DIR: /app/dist
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  mysql_data:

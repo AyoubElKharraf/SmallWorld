@@ -1,0 +1,17 @@
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: *
+Allow: /
+
+# Remplacez l’URL par votre domaine (cohérent avec VITE_SITE_URL).
+Sitemap: https://example.com/sitemap.xml
