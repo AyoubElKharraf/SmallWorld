@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Bell, Check, Loader2 } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Bell, Check, ExternalLink, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,6 +21,7 @@ type NotifRow = {
   body: string;
   type: string;
   is_read: number | boolean;
+  action_url: string | null;
   created_at: string;
 };
 
@@ -134,6 +136,29 @@ const NotificationBell = ({ navVariant = "hero" }: { navVariant?: NavVariant }) 
                     <p className="text-xs text-muted-foreground leading-snug whitespace-pre-wrap">
                       {n.body}
                     </p>
+                    {n.action_url ? (
+                      /^https?:\/\//i.test(n.action_url) ? (
+                        <a
+                          href={n.action_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-1 text-xs font-medium text-accent hover:underline"
+                          onClick={() => markRead.mutate(n.id)}
+                        >
+                          {t("notif.openLink")}
+                          <ExternalLink className="h-3 w-3" aria-hidden />
+                        </a>
+                      ) : (
+                        <Link
+                          to={n.action_url}
+                          className="inline-flex items-center gap-1 text-xs font-medium text-accent hover:underline"
+                          onClick={() => markRead.mutate(n.id)}
+                        >
+                          {t("notif.openLink")}
+                          <ExternalLink className="h-3 w-3" aria-hidden />
+                        </Link>
+                      )
+                    ) : null}
                     <span className="text-[10px] text-muted-foreground/80">
                       {new Date(n.created_at).toLocaleString()}
                     </span>

@@ -35,7 +35,8 @@ router.get("/health", async (_req, res) => {
 router.get("/destinations", async (_req, res) => {
   try {
     const [rows] = await pool.query(
-      `SELECT slug, name, country, rating, price_label AS price, tag
+      `SELECT slug, name, country, rating, review_count, price_label AS price, price_from_eur,
+              price_was_label, tag, availability, deal_badge, viewers_recent, sort_order
        FROM destinations
        ORDER BY sort_order ASC, id ASC`
     );
@@ -64,14 +65,15 @@ router.get("/suggestions", async (req, res) => {
   const q = typeof req.query.q === "string" ? req.query.q.trim() : "";
   try {
     const [all] = await pool.query(
-      `SELECT type, title, description, duration, keywords
+      `SELECT id, type, title, description, duration, keywords
        FROM ai_suggestions
        ORDER BY id ASC`
     );
 
     if (!q) {
       return res.json({
-        suggestions: all.map(({ type, title, description, duration }) => ({
+        suggestions: all.map(({ id, type, title, description, duration }) => ({
+          id,
           type,
           title,
           description,
@@ -91,7 +93,8 @@ router.get("/suggestions", async (req, res) => {
     const list = picked.length ? picked : all;
 
     res.json({
-      suggestions: list.slice(0, 8).map(({ type, title, description, duration }) => ({
+      suggestions: list.slice(0, 8).map(({ id, type, title, description, duration }) => ({
+        id,
         type,
         title,
         description,

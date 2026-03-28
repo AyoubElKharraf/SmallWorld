@@ -11,7 +11,7 @@ export const RouteSeo = () => {
 
   const meta = (() => {
     if (pathname.startsWith("/destination/")) {
-      return { title: t("seo.destinationDetailTitle"), desc: t("seo.destinationDetailDesc") };
+      return null;
     }
     switch (pathname) {
       case "/":
@@ -32,6 +32,8 @@ export const RouteSeo = () => {
         return { title: t("seo.adminTitle"), desc: t("seo.homeDesc") };
       case "/profil":
         return { title: t("seo.profileTitle"), desc: t("seo.profileDesc") };
+      case "/favoris":
+        return { title: t("seo.favoritesTitle"), desc: t("seo.favoritesDesc") };
       default:
         return { title: t("seo.notFoundTitle"), desc: t("seo.homeDesc") };
     }
@@ -41,16 +43,20 @@ export const RouteSeo = () => {
 
   return (
     <Helmet htmlAttributes={{ lang }} prioritizeSeoTags>
-      <title>{meta.title}</title>
-      <meta name="description" content={meta.desc} />
-      <meta property="og:title" content={meta.title} />
-      <meta property="og:description" content={meta.desc} />
-      <meta property="og:type" content="website" />
-      {siteUrl ? <meta property="og:url" content={`${siteUrl}${pathname}`} /> : null}
-      <meta property="og:image" content={ogImage} />
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={meta.title} />
-      <meta name="twitter:description" content={meta.desc} />
+      {meta ? (
+        <>
+          <title>{meta.title}</title>
+          <meta name="description" content={meta.desc} />
+          <meta property="og:title" content={meta.title} />
+          <meta property="og:description" content={meta.desc} />
+          <meta property="og:type" content="website" />
+          {siteUrl ? <meta property="og:url" content={`${siteUrl}${pathname}`} /> : null}
+          <meta property="og:image" content={ogImage} />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content={meta.title} />
+          <meta name="twitter:description" content={meta.desc} />
+        </>
+      ) : null}
     </Helmet>
   );
 };

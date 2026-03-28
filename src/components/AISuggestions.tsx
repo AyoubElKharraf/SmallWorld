@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { Sparkles, Clock, ArrowRight, Loader2 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import {
   FALLBACK_SUGGESTIONS,
   fetchSuggestions,
@@ -10,6 +11,12 @@ import {
   iconForLabel,
   type Suggestion,
 } from "@/lib/suggestions-data";
+import { ErrorStatePanel } from "@/components/ErrorStatePanel";
+import { FavoriteButton } from "@/components/FavoriteButton";
+import { PageShell } from "@/components/layout/PageShell";
+import { ActionBar } from "@/components/layout/ActionBar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 type SuggestionCardProps = {
   suggestion: Suggestion;
@@ -17,8 +24,10 @@ type SuggestionCardProps = {
 };
 
 function SuggestionCard({ suggestion, index }: SuggestionCardProps) {
+  const { t } = useTranslation();
   const Icon = iconForLabel(suggestion.type);
   const to = `/decouverte?title=${encodeURIComponent(suggestion.title)}`;
+  const favKey = suggestion.id != null ? `sugg:${suggestion.id}` : null;
 
   return (
     <motion.div
@@ -30,8 +39,9 @@ function SuggestionCard({ suggestion, index }: SuggestionCardProps) {
         delay: 0.15 + index * 0.08,
         ease: [0.16, 1, 0.3, 1],
       }}
-      className="h-full"
+      className="relative h-full"
     >
+      {favKey ? <FavoriteButton targetKey={favKey} className="absolute right-3 top-3 z-20" /> : null}
       <Link
         to={to}
         className="group flex h-full flex-col overflow-hidden rounded-xl border border-border bg-card shadow-sm transition-all duration-300 hover:border-primary/20 hover:shadow-md hover:shadow-foreground/[0.06]"
@@ -56,7 +66,7 @@ function SuggestionCard({ suggestion, index }: SuggestionCardProps) {
             {suggestion.description}
           </p>
           <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-accent">
-            Voir le détail
+            {t("favorites.openDetail")}
             <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" aria-hidden />
           </span>
         </div>
@@ -66,10 +76,11 @@ function SuggestionCard({ suggestion, index }: SuggestionCardProps) {
 }
 
 const AISuggestions = () => {
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const [activeQuery, setActiveQuery] = useState("");
 
-  const { data, isLoading, isError, isFetching } = useQuery({
+  const { data, isLoading, isError, isFetching, refetch } = useQuery({
     queryKey: ["suggestions", activeQuery],
     queryFn: () => fetchSuggestions(activeQuery),
     retry: 2,
@@ -79,87 +90,79 @@ const AISuggestions = () => {
   const suggestions = isError
     ? filterSuggestionsLocal(FALLBACK_SUGGESTIONS, activeQuery)
     : (data?.suggestions ?? []);
-  const showResults = true;
 
   return (
-    <section className="px-6 py-28 bg-primary/[0.04]">
-      <div className="max-w-7xl mx-auto">
+    <section className="border-t border-border/60 bg-primary/[0.04] py-16 md:py-20">
+      <PageShell noVerticalPadding>
         <motion.div
           initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
           whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
           viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-2xl mb-12"
+          transition={{ duration: 0.6, delay: 0.05, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-8 rounded-2xl border border-border bg-card p-6 shadow-md shadow-foreground/[0.04] ring-1 ring-border/50 md:p-8"
         >
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-4 h-4 text-accent" />
-            <p className="text-accent text-sm tracking-[0.15em] uppercase font-medium">
-              Assistant IA
-            </p>
-          </div>
-          <h2 className="font-serif text-4xl md:text-5xl text-foreground leading-[1.1] text-balance mb-4">
-            Votre guide de voyage intelligent
-          </h2>
-          <p className="text-muted-foreground text-lg text-pretty">
-            Décrivez votre voyage idéal et notre IA vous suggère itinéraires, restaurants et activités sur mesure.
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-          whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-card rounded-2xl shadow-lg shadow-foreground/[0.04] border border-border p-6 mb-8"
-        >
-          <div className="flex items-start gap-3">
-            <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
-              <Sparkles className="w-4 h-4 text-accent" />
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-accent/10">
+              <Sparkles className="h-5 w-5 text-accent" aria-hidden />
             </div>
-            <div className="flex-1">
-              <p className="text-sm text-muted-foreground mb-2">
-                Exemple : « Je veux visiter le Portugal en famille pendant 5 jours, avec des plages et de la bonne cuisine. »
-              </p>
-              <div className="flex gap-2 flex-wrap">
-                <input
+            <div className="min-w-0 flex-1 space-y-2">
+              <p className="text-sm text-muted-foreground">{t("assistant.exampleHint")}</p>
+              <ActionBar className="w-full max-w-3xl">
+                <Input
                   type="text"
-                  placeholder="Décrivez votre voyage idéal..."
+                  placeholder={t("assistant.searchPlaceholder")}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  className="flex-1 min-w-[200px] bg-secondary/50 text-foreground rounded-xl px-4 py-2.5 text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring/20"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      setActiveQuery(input.trim());
+                    }
+                  }}
+                  className="h-11 min-w-0 flex-1 bg-secondary/40"
                 />
-                <button
+                <Button
                   type="button"
                   disabled={isFetching}
+                  className="h-11 shrink-0 px-6"
                   onClick={() => setActiveQuery(input.trim())}
-                  className="bg-primary text-primary-foreground px-5 py-2.5 rounded-xl text-sm font-medium hover:opacity-90 transition-opacity active:scale-[0.97] disabled:opacity-60 inline-flex items-center gap-2"
                 >
-                  {isFetching ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                  Suggérer
-                </button>
-              </div>
+                  {isFetching ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+                  {isFetching ? t("assistant.suggesting") : t("assistant.suggest")}
+                </Button>
+              </ActionBar>
             </div>
           </div>
         </motion.div>
 
-        {showResults && (
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
-            {isLoading && !data && (
-              <div className="col-span-full flex justify-center py-12 text-muted-foreground gap-2">
-                <Loader2 className="w-5 h-5 animate-spin" />
-                Chargement des suggestions…
-              </div>
-            )}
-            {suggestions.map((suggestion, i) => (
-              <SuggestionCard
-                key={`${activeQuery}|${suggestion.type}|${suggestion.title}|${suggestion.duration}|${i}`}
-                suggestion={suggestion}
-                index={i}
-              />
-            ))}
+        {isError && (
+          <div className="mb-6">
+            <ErrorStatePanel
+              variant="inline"
+              title={t("assistant.apiErrorTitle")}
+              description={t("assistant.apiErrorDesc")}
+              onRetry={() => refetch()}
+              isRetrying={isFetching}
+            />
           </div>
         )}
-      </div>
+
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
+          {isLoading && !data && (
+            <div className="col-span-full flex justify-center gap-2 py-12 text-muted-foreground">
+              <Loader2 className="h-5 w-5 animate-spin" aria-hidden />
+              {t("assistant.loadingSuggestions")}
+            </div>
+          )}
+          {suggestions.map((suggestion, i) => (
+            <SuggestionCard
+              key={`${activeQuery}|${suggestion.type}|${suggestion.title}|${suggestion.duration}|${i}`}
+              suggestion={suggestion}
+              index={i}
+            />
+          ))}
+        </div>
+      </PageShell>
     </section>
   );
 };

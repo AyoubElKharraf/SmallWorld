@@ -9,6 +9,8 @@ import { Label } from "@/components/ui/label";
 import { useAuth } from "@/contexts/AuthContext";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PageShell } from "@/components/layout/PageShell";
 
 const Register = () => {
   const { register } = useAuth();
@@ -55,22 +57,21 @@ const Register = () => {
       <main
         className={cn(
           "flex w-full flex-1 flex-col overflow-y-auto",
-          "justify-start px-5 pb-8 pt-28 sm:px-6 sm:pb-10 sm:pt-32"
+          "justify-start pb-8 pt-28 sm:pb-10 sm:pt-32"
         )}
       >
-        <div className="mx-auto w-full max-w-md space-y-8 pb-4">
-          <div className="space-y-3 text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary ring-1 ring-primary/15">
-              <Plane className="h-6 w-6" aria-hidden />
-            </div>
-            <h1 className="font-serif text-3xl tracking-tight text-foreground md:text-4xl">Créer un compte</h1>
-            <p className="mx-auto max-w-2xl text-center text-sm leading-relaxed text-muted-foreground md:text-base">
+        <PageShell variant="auth" noVerticalPadding className="space-y-8 pb-4">
+          <PageHeader
+            align="center"
+            icon={Plane}
+            title="Créer un compte"
+            description={
               <span>
                 Compte <strong className="font-medium text-foreground">client</strong>
                 {" : enregistrez vos recherches et recevez des notifications."}
               </span>
-            </p>
-          </div>
+            }
+          />
           <form
             onSubmit={handleSubmit}
             className="space-y-4 rounded-2xl border border-border/80 bg-card/80 p-6 shadow-md shadow-foreground/[0.04] ring-1 ring-border/50 backdrop-blur-sm md:p-8"
@@ -161,7 +162,7 @@ const Register = () => {
               </Link>
             </p>
           </form>
-        </div>
+        </PageShell>
       </main>
       <Footer variant="compact" />
     </div>

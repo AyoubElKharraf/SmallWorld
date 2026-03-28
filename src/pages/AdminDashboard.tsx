@@ -28,6 +28,8 @@ import { apiFetch } from "@/lib/api";
 import { toast } from "sonner";
 import { useState } from "react";
 import { Loader2 } from "lucide-react";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PageShell } from "@/components/layout/PageShell";
 
 type Stats = { clients: number; admins: number; searches: number; notifications: number };
 
@@ -57,6 +59,7 @@ const AdminDashboard = () => {
   const { t } = useTranslation();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
+  const [actionUrl, setActionUrl] = useState("");
   const [type, setType] = useState("info");
   const [broadcast, setBroadcast] = useState(true);
   const [targetUserId, setTargetUserId] = useState("");
@@ -100,6 +103,7 @@ const AdminDashboard = () => {
           type,
           broadcastToAll: broadcast,
           userId: broadcast ? undefined : Number(targetUserId),
+          actionUrl: actionUrl.trim() || undefined,
         }),
       });
       const data = await r.json();
@@ -140,11 +144,9 @@ const AdminDashboard = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <SkipLink />
       <Navbar variant="solid" />
-      <main id="main-content" tabIndex={-1} className="flex-1 max-w-6xl w-full mx-auto px-6 py-12 space-y-10 outline-none">
-        <div>
-          <h1 className="font-serif text-3xl md:text-4xl text-foreground">{t("admin.title")}</h1>
-          <p className="text-muted-foreground mt-1 text-sm">{t("admin.subtitle")}</p>
-        </div>
+      <main id="main-content" tabIndex={-1} className="flex-1 outline-none">
+        <PageShell variant="wide" className="space-y-10 py-12">
+          <PageHeader title={t("admin.title")} description={t("admin.subtitle")} />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
@@ -187,6 +189,15 @@ const AdminDashboard = () => {
                 value={body}
                 onChange={(e) => setBody(e.target.value)}
                 placeholder={t("admin.placeholderBody")}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="n-action">{t("admin.labelActionUrl")}</Label>
+              <Input
+                id="n-action"
+                value={actionUrl}
+                onChange={(e) => setActionUrl(e.target.value)}
+                placeholder="/favoris"
               />
             </div>
             <div className="space-y-2">
@@ -361,6 +372,7 @@ const AdminDashboard = () => {
             )}
           </CardContent>
         </Card>
+        </PageShell>
       </main>
       <Footer />
     </div>

@@ -22,8 +22,14 @@ CREATE TABLE IF NOT EXISTS destinations (
   name VARCHAR(128) NOT NULL,
   country VARCHAR(128) NOT NULL,
   rating DECIMAL(2,1) NOT NULL,
+  review_count INT NOT NULL DEFAULT 0,
   price_label VARCHAR(64) NOT NULL,
+  price_from_eur INT NOT NULL DEFAULT 0,
+  price_was_label VARCHAR(64) NULL,
   tag VARCHAR(64) NOT NULL,
+  availability VARCHAR(64) NOT NULL DEFAULT 'Disponible',
+  deal_badge VARCHAR(64) NULL,
+  viewers_recent INT NULL,
   sort_order INT NOT NULL DEFAULT 0
 ) ENGINE=InnoDB;
 
@@ -60,12 +66,23 @@ CREATE TABLE IF NOT EXISTS notifications (
   body TEXT NOT NULL,
   type ENUM('info', 'success', 'warning', 'error') NOT NULL DEFAULT 'info',
   is_read TINYINT(1) NOT NULL DEFAULT 0,
+  action_url VARCHAR(512) NULL,
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   INDEX idx_notif_user (user_id),
   CONSTRAINT fk_notif_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS user_favorites (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL,
+  target_key VARCHAR(128) NOT NULL COMMENT 'dest:slug ou sugg:id',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE KEY uq_user_target (user_id, target_key),
+  CONSTRAINT fk_fav_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
 SET FOREIGN_KEY_CHECKS = 0;
+TRUNCATE TABLE user_favorites;
 TRUNCATE TABLE notifications;
 TRUNCATE TABLE hero_searches;
 TRUNCATE TABLE ai_suggestions;
@@ -73,11 +90,11 @@ TRUNCATE TABLE map_markers;
 TRUNCATE TABLE destinations;
 SET FOREIGN_KEY_CHECKS = 1;
 
-INSERT INTO destinations (slug, name, country, rating, price_label, tag, sort_order) VALUES
-  ('santorini', 'Santorin', 'Grèce', 4.8, 'À partir de 890€', 'Populaire', 1),
-  ('kyoto', 'Kyoto', 'Japon', 4.9, 'À partir de 1 240€', 'Culturel', 2),
-  ('marrakech', 'Marrakech', 'Maroc', 4.7, 'À partir de 520€', 'Aventure', 3),
-  ('patagonia', 'Patagonie', 'Argentine', 4.9, 'À partir de 1 680€', 'Nature', 4);
+INSERT INTO destinations (slug, name, country, rating, review_count, price_label, price_from_eur, price_was_label, tag, availability, deal_badge, viewers_recent, sort_order) VALUES
+  ('santorini', 'Santorin', 'Grèce', 4.8, 1842, 'À partir de 890€', 890, '1 050€', 'Populaire', 'Places limitées', 'Offre Genius', 28, 1),
+  ('kyoto', 'Kyoto', 'Japon', 4.9, 3201, 'À partir de 1 240€', 1240, NULL, 'Culturel', 'Disponible', 'Très demandé', 41, 2),
+  ('marrakech', 'Marrakech', 'Maroc', 4.7, 956, 'À partir de 520€', 520, '640€', 'Aventure', 'Bientôt complet', 'Prix réduit', 12, 3),
+  ('patagonia', 'Patagonie', 'Argentine', 4.9, 523, 'À partir de 1 680€', 1680, NULL, 'Nature', 'Disponible', NULL, 7, 4);
 
 INSERT INTO map_markers (name, lat, lng, info, sort_order) VALUES
   ('Santorin', 36.3932000, 25.4615000, 'Grèce · 4.8★', 1),

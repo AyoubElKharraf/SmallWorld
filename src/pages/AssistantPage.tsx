@@ -1,18 +1,24 @@
+import { useTranslation } from "react-i18next";
 import AISuggestions from "@/components/AISuggestions";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PageShell } from "@/components/layout/PageShell";
 
-const AssistantPage = () => (
-  <div className="min-h-[60vh]">
-    <section className="px-6 pt-8 pb-0 max-w-7xl mx-auto">
-      <p className="text-sm text-muted-foreground max-w-3xl leading-relaxed">
-        <strong className="text-foreground">Comment ça marche :</strong> les suggestions affichées sont chargées
-        depuis votre API (données MySQL) et filtrées selon votre texte. Pour connecter un modèle de langage
-        externe (OpenAI, etc.), il faudra ajouter une clé API côté serveur et enrichir la route{" "}
-        <code className="rounded bg-muted px-1.5 py-0.5 text-xs">GET /api/suggestions</code> — aucune action
-        obligatoire tant que l’API locale tourne.
-      </p>
-    </section>
-    <AISuggestions />
-  </div>
-);
+const AssistantPage = () => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="min-h-[60vh]">
+      <PageShell className="pb-6 pt-8 md:pb-8 md:pt-10">
+        <PageHeader
+          size="hero"
+          kicker={t("assistant.pageKicker")}
+          title={t("assistant.pageTitle")}
+          description={t("assistant.pageDesc")}
+        />
+      </PageShell>
+      <AISuggestions />
+    </div>
+  );
+};
 
 export default AssistantPage;

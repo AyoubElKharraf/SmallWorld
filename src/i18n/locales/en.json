@@ -12,7 +12,8 @@
     "notifications": "Notifications",
     "userMenu": "User menu",
     "lang": "Language",
-    "profile": "Profile"
+    "profile": "Profile",
+    "favorites": "Favorites"
   },
   "footer": {
     "tagline": "Plan your trips with AI help. Personalized itineraries, restaurants and interactive maps.",
@@ -33,11 +34,17 @@
     "discoveryDesc": "Detailed travel itinerary, restaurant or idea.",
     "destinationDetailTitle": "Destination itinerary — Voyageur",
     "destinationDetailDesc": "Stay ideas and a suggested itinerary for your destination.",
+    "destinationPageTitle": "{{name}} — {{country}} | Voyageur",
+    "destinationPageDesc": "Suggested itinerary for {{name}} ({{country}}). From {{price}}. Voyageur demo — no real booking.",
+    "destinationSlugNotFoundTitle": "Destination not found — Voyageur",
+    "destinationSlugNotFoundDesc": "This page does not exist or is no longer available. Browse destinations from the home page.",
     "loginTitle": "Log in — Voyageur",
     "registerTitle": "Sign up — Voyageur",
     "adminTitle": "Administration — Voyageur",
     "profileTitle": "My profile — Voyageur",
     "profileDesc": "Manage your name, email and password.",
+    "favoritesTitle": "My favorites — Voyageur",
+    "favoritesDesc": "Saved destinations and suggestions.",
     "notFoundTitle": "Page not found — Voyageur"
   },
   "skip": "Skip to content",
@@ -60,12 +67,40 @@
     "featAssistantDesc": "Describe what you want — tailored suggestions in seconds.",
     "featMapTitle": "Interactive map",
     "featMapDesc": "See places and ideas on a world map.",
-    "cta": "Explore"
+    "cta": "Explore",
+    "carouselPrev": "Previous slide",
+    "carouselNext": "Next slide"
+  },
+  "assistant": {
+    "pageKicker": "AI Assistant",
+    "pageTitle": "Your smart travel guide",
+    "pageDesc": "Describe your ideal trip — we suggest itineraries, restaurants and activities from your data.",
+    "searchPlaceholder": "Describe your ideal trip…",
+    "suggest": "Suggest",
+    "suggesting": "Searching…",
+    "exampleHint": "Example: “I want to visit Portugal with family for 5 days, with beaches and great food.”",
+    "loadingSuggestions": "Loading suggestions…",
+    "apiErrorTitle": "The suggestions API is unavailable.",
+    "apiErrorDesc": "Results use local filtering on demo data."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "description": "This URL does not match any Voyageur page.",
+    "cta": "Back to home"
+  },
+  "suggestionDetail": {
+    "backAssistant": "Back to assistant",
+    "notFound": "That suggestion could not be found.",
+    "noneSelected": "No suggestion selected.",
+    "loading": "Loading…",
+    "summaryTitle": "Highlights"
   },
   "map": {
     "loading": "Loading map…",
     "section": "Interactive map",
-    "title": "Your destinations at a glance"
+    "title": "Your destinations at a glance",
+    "errorTitle": "Map: server data unavailable.",
+    "errorDesc": "Markers shown are local fallback data."
   },
   "admin": {
     "title": "Administration",
@@ -79,6 +114,7 @@
     "labelTitle": "Title",
     "labelBody": "Message",
     "placeholderBody": "Content shown in the notification bell…",
+    "labelActionUrl": "Link (optional, internal path or URL)",
     "labelType": "Type",
     "typeInfo": "Info",
     "typeSuccess": "Success",
@@ -113,7 +149,95 @@
   "notif": {
     "markAllRead": "Mark all read",
     "empty": "No notifications",
-    "markRead": "Mark as read"
+    "markRead": "Mark as read",
+    "openLink": "Open"
+  },
+  "trustStrip": {
+    "secureTitle": "Secure payments",
+    "secureDesc": "Encrypted checkout for your bookings (demo).",
+    "cancelTitle": "Flexible cancellation",
+    "cancelDesc": "Policies vary by offer — confirm before you pay.",
+    "reviewsTitle": "Ratings & reviews",
+    "reviewsDesc": "Aggregated scores and traveler feedback to guide you.",
+    "disclaimer": "* OTA-style experience: data and labels are illustrative in this demo app."
+  },
+  "destinationsPage": {
+    "pageKicker": "Destinations",
+    "pageTitle": "Explore the world",
+    "pageDesc": "Search a region or country, refine by budget and theme, then compare stays and reviews to plan your trip."
+  },
+  "destinationsSearch": {
+    "formAria": "Search destinations",
+    "placeholder": "Destination, country, or region",
+    "datesFlexible": "Flexible dates",
+    "clearDates": "Clear dates",
+    "guests": "Travelers",
+    "guestsCount": "{{count}} adult(s)",
+    "submit": "Search",
+    "hint": "Dates and guest count are for the UI only (no real booking).",
+    "clearQuery": "Clear search"
+  },
+  "destinationsGrid": {
+    "kicker": "Trending destinations",
+    "title": "Where to go this season?",
+    "resultsKicker": "Your picks",
+    "resultsTitle": "Refine by budget, sort order, and theme",
+    "filtersTitle": "Filters",
+    "filtersAsideAria": "Result filters",
+    "tagSectionLabel": "Theme",
+    "filterAll": "All",
+    "loading": "Loading destinations…",
+    "emptyFilter": "No stays match these filters. Try broadening your search or budget.",
+    "resultCount": "{{count}} stays matching your criteria",
+    "sortLabel": "Sort by",
+    "sortRecommended": "Top picks",
+    "sortPriceAsc": "Price: low to high",
+    "sortPriceDesc": "Price: high to low",
+    "sortRating": "Guest rating",
+    "sortName": "Name (A–Z)",
+    "priceLabel": "Budget (from)",
+    "priceAll": "All",
+    "priceLt600": "Under €600",
+    "price6001500": "€600 – €1,500",
+    "priceGt1500": "Over €1,500",
+    "viewersRecent": "{{count}} travelers viewed this listing in the last 24 h (indicative)",
+    "reviewsShort": "{{formatted}} reviews",
+    "priceFootnote": "Indicative price for 2 guests · 1 week stay (demo).",
+    "ctaItinerary": "View itinerary",
+    "viewToggleAria": "Result display mode",
+    "viewGridAria": "Grid",
+    "viewListAria": "List",
+    "mapSectionTitle": "On the map",
+    "mapSectionHint": "Hover a pin for the indicative price. Click to open the page.",
+    "mapOpenFullMap": "Full interactive map",
+    "mapPopupCta": "View details"
+  },
+  "destinationDetail": {
+    "notFound": "Destination not found.",
+    "backHome": "Back to home",
+    "reviewsWord": "reviews",
+    "viewersRecent": "{{count}} travelers recently viewed this page (indicative).",
+    "reviewsHeadline": "Rated {{rating}} / 5 · {{formatted}} guest reviews",
+    "reviewsDemo": "Reviews are illustrative for this demo.",
+    "itineraryTitle": "Suggested itinerary",
+    "ctaMap": "View on map",
+    "ctaAssistant": "AI assistant",
+    "demoDisclaimer": "Prices, availability, traffic, and reviews are fictional or simplified — this is not a booking engine."
+  },
+  "favorites": {
+    "add": "Add to favorites",
+    "remove": "Remove from favorites",
+    "title": "My favorites",
+    "subtitle": "Saved destinations and ideas.",
+    "empty": "No favorites yet. Use the heart on destination cards or AI suggestions.",
+    "loading": "Loading…",
+    "loadError": "Could not load favorites",
+    "loadErrorDesc": "Make sure you are logged in and the API is running.",
+    "sectionDestinations": "Destinations",
+    "sectionSuggestions": "Suggestions",
+    "open": "View itinerary",
+    "openDetail": "View detail",
+    "reviewLine": "{{formatted}} reviews"
   },
   "profile": {
     "title": "My profile",
@@ -139,6 +263,14 @@
     "passwordTooShort": "New password must be at least 8 characters",
     "passwordMismatch": "New passwords do not match",
     "showPassword": "Show password",
-    "hidePassword": "Hide password"
+    "hidePassword": "Hide password",
+    "activityTitle": "Activity",
+    "activitySubtitle": "Your favorites and shortcuts",
+    "activityEmpty": "Add hearts on destinations or AI suggestions to see them here.",
+    "activityLoading": "Loading…",
+    "activityError": "Could not load activity right now.",
+    "activityOne": "1 saved favorite.",
+    "activityMany": "{{count}} saved favorites.",
+    "activityCta": "View all favorites"
   }
 }

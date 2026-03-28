@@ -2,6 +2,7 @@ import { Utensils, Route, type LucideIcon } from "lucide-react";
 import { apiUrl } from "@/lib/api";
 
 export type Suggestion = {
+  id?: number;
   type: "itinéraire" | "restaurant" | string;
   title: string;
   description: string;
@@ -13,6 +14,7 @@ export type SuggestionsResponse = { suggestions: Suggestion[] };
 
 export const FALLBACK_SUGGESTIONS: Suggestion[] = [
   {
+    id: 1,
     type: "itinéraire",
     title: "3 jours à Lisbonne",
     description:
@@ -24,6 +26,7 @@ export const FALLBACK_SUGGESTIONS: Suggestion[] = [
       "Jour 3 — LX Factory & rives : quartier créatif, boutiques design, dernière balade le long du Tage.",
   },
   {
+    id: 2,
     type: "restaurant",
     title: "O Velho Eurico",
     description:
@@ -33,6 +36,7 @@ export const FALLBACK_SUGGESTIONS: Suggestion[] = [
       "Petite salle, carte courte et produits du marché. Arrivez tôt ou réservez : peu de places. Essayez le bacalhau à brás et un vin du Douro au verre. Ambiance familiale, service direct — idéal après une journée dans l’Alfama.",
   },
   {
+    id: 3,
     type: "itinéraire",
     title: "Weekend à Porto",
     description:
@@ -43,6 +47,7 @@ export const FALLBACK_SUGGESTIONS: Suggestion[] = [
       "Dimanche : croisière courte sur le Douro (matin), quartier de Ribeira pour déjeuner, francesinha au Café Santiago le midi (portion généreuse — partagez !).",
   },
   {
+    id: 4,
     type: "restaurant",
     title: "Cantinho do Avillez",
     description:

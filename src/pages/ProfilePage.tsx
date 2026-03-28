@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { motion } from "framer-motion";
 import { Eye, EyeOff, Plane } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { ProfileActivity } from "@/components/ProfileActivity";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PageShell } from "@/components/layout/PageShell";
 import { useAuth } from "@/contexts/AuthContext";
+import { staggerContainer, staggerItem } from "@/lib/motion";
 
 const ProfilePage = () => {
   const { t, i18n } = useTranslation();
@@ -96,22 +101,37 @@ const ProfilePage = () => {
   if (!user) return null;
 
   return (
-    <div className="min-h-[60vh] px-6 pb-16 pt-8">
-      <div className="mx-auto max-w-lg space-y-10">
-        <div className="space-y-2 text-center">
-          <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary ring-1 ring-primary/15">
-            <Plane className="h-6 w-6" aria-hidden />
-          </div>
-          <h1 className="font-serif text-3xl tracking-tight text-foreground md:text-4xl">{t("profile.title")}</h1>
-          <p className="text-sm text-muted-foreground">{t("profile.subtitle")}</p>
-          {createdLabel && (
-            <p className="text-xs text-muted-foreground">
-              {t("profile.memberSince")} {createdLabel}
-            </p>
-          )}
-        </div>
+    <PageShell variant="narrow" className="pb-16 pt-8">
+      <motion.div
+        className="space-y-10"
+        variants={staggerContainer}
+        initial="initial"
+        animate="animate"
+      >
+        <motion.div variants={staggerItem}>
+          <PageHeader
+            align="center"
+            icon={Plane}
+            title={t("profile.title")}
+            description={
+              <>
+                <span className="block">{t("profile.subtitle")}</span>
+                {createdLabel && (
+                  <span className="mt-2 block text-xs text-muted-foreground">
+                    {t("profile.memberSince")} {createdLabel}
+                  </span>
+                )}
+              </>
+            }
+          />
+        </motion.div>
 
-        <form
+        <motion.div variants={staggerItem}>
+          <ProfileActivity />
+        </motion.div>
+
+        <motion.form
+          variants={staggerItem}
           onSubmit={handleProfileSubmit}
           className="space-y-4 rounded-2xl border border-border/80 bg-card/80 p-6 shadow-md shadow-foreground/[0.04] ring-1 ring-border/50 backdrop-blur-sm md:p-8"
         >
@@ -143,9 +163,10 @@ const ProfilePage = () => {
           <Button type="submit" className="h-11 w-full" disabled={profilePending}>
             {profilePending ? t("profile.saving") : t("profile.save")}
           </Button>
-        </form>
+        </motion.form>
 
-        <form
+        <motion.form
+          variants={staggerItem}
           onSubmit={handlePasswordSubmit}
           className="space-y-4 rounded-2xl border border-border/80 bg-card/80 p-6 shadow-md shadow-foreground/[0.04] ring-1 ring-border/50 backdrop-blur-sm md:p-8"
         >
@@ -221,9 +242,9 @@ const ProfilePage = () => {
           <Button type="submit" variant="secondary" className="h-11 w-full" disabled={passwordPending}>
             {passwordPending ? t("profile.updatingPassword") : t("profile.updatePassword")}
           </Button>
-        </form>
-      </div>
-    </div>
+        </motion.form>
+      </motion.div>
+    </PageShell>
   );
 };
 

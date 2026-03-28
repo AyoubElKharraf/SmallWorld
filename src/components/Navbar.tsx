@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { Plane, Menu, X, LogOut, LayoutDashboard, User, CircleUser } from "lucide-react";
+import { Plane, Menu, X, LogOut, LayoutDashboard, User, CircleUser, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
@@ -94,6 +94,12 @@ const Navbar = ({ variant = "hero" }: NavbarProps) => {
                     {t("nav.profile")}
                   </Link>
                 </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/favoris" className="cursor-pointer">
+                    <Heart className="w-4 h-4 mr-2" aria-hidden />
+                    {t("nav.favorites")}
+                  </Link>
+                </DropdownMenuItem>
                 {user.role === "admin" && (
                   <DropdownMenuItem asChild>
                     <Link to="/admin" className="cursor-pointer">
@@ -163,6 +169,9 @@ const Navbar = ({ variant = "hero" }: NavbarProps) => {
                 <>
                   <Link to="/profil" onClick={() => setOpen(false)}>
                     {t("nav.profile")}
+                  </Link>
+                  <Link to="/favoris" onClick={() => setOpen(false)}>
+                    {t("nav.favorites")}
                   </Link>
                   {user.role === "admin" && (
                     <Link to="/admin" onClick={() => setOpen(false)}>

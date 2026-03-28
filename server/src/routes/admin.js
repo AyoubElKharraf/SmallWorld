@@ -112,12 +112,14 @@ router.get("/searches/export", async (_req, res) => {
 });
 
 router.post("/notifications", async (req, res) => {
-  const { title, body, type = "info", broadcastToAll, userId } = req.body ?? {};
+  const { title, body, type = "info", broadcastToAll, userId, actionUrl } = req.body ?? {};
   if (typeof title !== "string" || typeof body !== "string" || !title.trim() || !body.trim()) {
     return res.status(400).json({ error: "title et body requis" });
   }
   const allowed = ["info", "success", "warning", "error"];
   const t = allowed.includes(type) ? type : "info";
+  const action =
+    typeof actionUrl === "string" && actionUrl.trim().length > 0 ? actionUrl.trim().slice(0, 512) : null;
 
   try {
     if (broadcastToAll === true) {
@@ -127,8 +129,8 @@ router.post("/notifications", async (req, res) => {
       }
       for (const c of clients) {
         await pool.query(
-          `INSERT INTO notifications (user_id, title, body, type) VALUES (?, ?, ?, ?)`,
-          [c.id, title.trim(), body.trim(), t]
+          `INSERT INTO notifications (user_id, title, body, type, action_url) VALUES (?, ?, ?, ?, ?)`,
+          [c.id, title.trim(), body.trim(), t, action]
         );
       }
       return res.json({ ok: true, sent: clients.length });
@@ -139,8 +141,8 @@ router.post("/notifications", async (req, res) => {
       return res.status(400).json({ error: "userId requis si broadcastToAll est faux" });
     }
     await pool.query(
-      `INSERT INTO notifications (user_id, title, body, type) VALUES (?, ?, ?, ?)`,
-      [uid, title.trim(), body.trim(), t]
+      `INSERT INTO notifications (user_id, title, body, type, action_url) VALUES (?, ?, ?, ?, ?)`,
+      [uid, title.trim(), body.trim(), t, action]
     );
     res.json({ ok: true, sent: 1 });
   } catch (e) {

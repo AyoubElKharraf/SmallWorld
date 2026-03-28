@@ -23,4 +23,11 @@ export default tseslint.config(
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  // shadcn/ui : variantes CVA + helpers ; AuthContext : hook + provider — la règle fast-refresh est trop stricte.
+  {
+    files: ["src/components/ui/**/*.{ts,tsx}", "src/contexts/AuthContext.tsx"],
+    rules: {
+      "react-refresh/only-export-components": "off",
+    },
+  },
 );

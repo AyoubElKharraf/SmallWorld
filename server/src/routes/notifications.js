@@ -7,7 +7,7 @@ const router = Router();
 router.get("/", requireAuth, async (req, res) => {
   try {
     const [rows] = await pool.query(
-      `SELECT id, title, body, type, is_read, created_at
+      `SELECT id, title, body, type, is_read, action_url, created_at
        FROM notifications
        WHERE user_id = ?
        ORDER BY is_read ASC, created_at DESC

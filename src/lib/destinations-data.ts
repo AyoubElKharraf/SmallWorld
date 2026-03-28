@@ -5,6 +5,14 @@ export type DestinationRow = {
   rating: number | string;
   price: string;
   tag: string;
+  /** Libellé métier type « disponible / places limitées » (démo). */
+  availability?: string;
+  review_count?: number;
+  price_from_eur?: number;
+  price_was_label?: string | null;
+  deal_badge?: string | null;
+  viewers_recent?: number | null;
+  sort_order?: number;
 };
 
 /** Aligné sur `server/db/init.sql` — affiché si l’API / MySQL est indisponible. */
@@ -16,6 +24,13 @@ export const FALLBACK_DESTINATIONS: DestinationRow[] = [
     rating: 4.8,
     price: "À partir de 890€",
     tag: "Populaire",
+    availability: "Places limitées",
+    review_count: 1842,
+    price_from_eur: 890,
+    price_was_label: "1 050€",
+    deal_badge: "Offre Genius",
+    viewers_recent: 28,
+    sort_order: 1,
   },
   {
     slug: "kyoto",
@@ -24,6 +39,13 @@ export const FALLBACK_DESTINATIONS: DestinationRow[] = [
     rating: 4.9,
     price: "À partir de 1 240€",
     tag: "Culturel",
+    availability: "Disponible",
+    review_count: 3201,
+    price_from_eur: 1240,
+    price_was_label: null,
+    deal_badge: "Très demandé",
+    viewers_recent: 41,
+    sort_order: 2,
   },
   {
     slug: "marrakech",
@@ -32,6 +54,13 @@ export const FALLBACK_DESTINATIONS: DestinationRow[] = [
     rating: 4.7,
     price: "À partir de 520€",
     tag: "Aventure",
+    availability: "Bientôt complet",
+    review_count: 956,
+    price_from_eur: 520,
+    price_was_label: "640€",
+    deal_badge: "Prix réduit",
+    viewers_recent: 12,
+    sort_order: 3,
   },
   {
     slug: "patagonia",
@@ -40,8 +69,24 @@ export const FALLBACK_DESTINATIONS: DestinationRow[] = [
     rating: 4.9,
     price: "À partir de 1 680€",
     tag: "Nature",
+    availability: "Disponible",
+    review_count: 523,
+    price_from_eur: 1680,
+    price_was_label: null,
+    deal_badge: null,
+    viewers_recent: 7,
+    sort_order: 4,
   },
 ];
+
+/** Classes pour badges de statut (aligné sur les libellés seed / admin). */
+export function availabilityTone(label: string | undefined): "ok" | "warn" | "alert" | "muted" {
+  const s = (label ?? "").toLowerCase();
+  if (s.includes("bientôt") || s.includes("complet")) return "alert";
+  if (s.includes("limit")) return "warn";
+  if (s.includes("dispon")) return "ok";
+  return "muted";
+}
 
 /** Texte « itinéraire » affiché sur la page détail (hors base pour l’instant). */
 export const DESTINATION_ITINERARY: Record<string, string> = {

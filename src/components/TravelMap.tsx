@@ -9,6 +9,9 @@ import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import L from "leaflet";
 import "leaflet.markercluster";
 import { apiUrl } from "@/lib/api";
+import { ErrorStatePanel } from "@/components/ErrorStatePanel";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { PageShell } from "@/components/layout/PageShell";
 
 type MarkerRow = {
   name: string;
@@ -37,7 +40,7 @@ const TravelMap = () => {
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<L.Map | null>(null);
 
-  const { data, isLoading, isError } = useQuery({
+  const { data, isLoading, isError, refetch, isFetching } = useQuery({
     queryKey: ["map-markers"],
     queryFn: fetchMarkers,
     retry: 1,
@@ -100,22 +103,27 @@ const TravelMap = () => {
   }, [markers, isLoading]);
 
   return (
-    <section className="px-6 py-24 max-w-7xl mx-auto" aria-labelledby="travel-map-heading">
-      <motion.div
-        initial={{ opacity: 0, y: 16, filter: "blur(4px)" }}
-        whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="mb-10"
-      >
-        <div className="flex items-center gap-2 mb-2">
-          <MapIcon className="w-4 h-4 text-accent" aria-hidden />
-          <p className="text-accent text-sm tracking-[0.15em] uppercase font-medium">{t("map.section")}</p>
+    <section aria-labelledby="travel-map-heading">
+      <PageShell className="pb-16 pt-8 md:pb-24 md:pt-10">
+        <PageHeader
+          titleId="travel-map-heading"
+          size="hero"
+          kicker={t("map.section")}
+          title={t("map.title")}
+          icon={MapIcon}
+        />
+
+      {isError && (
+        <div className="mb-6">
+          <ErrorStatePanel
+            variant="inline"
+            title={t("map.errorTitle")}
+            description={t("map.errorDesc")}
+            onRetry={() => refetch()}
+            isRetrying={isFetching}
+          />
         </div>
-        <h2 id="travel-map-heading" className="font-serif text-4xl md:text-5xl text-foreground leading-[1.1] text-balance">
-          {t("map.title")}
-        </h2>
-      </motion.div>
+      )}
 
       <motion.div
         initial={{ opacity: 0, y: 20, filter: "blur(4px)" }}
@@ -132,6 +140,7 @@ const TravelMap = () => {
         )}
         <div ref={mapRef} className="w-full h-[500px]" role="presentation" />
       </motion.div>
+      </PageShell>
     </section>
   );
 };

@@ -12,7 +12,8 @@
     "notifications": "Notifications",
     "userMenu": "Menu utilisateur",
     "lang": "Langue",
-    "profile": "Profil"
+    "profile": "Profil",
+    "favorites": "Favoris"
   },
   "footer": {
     "tagline": "Planifiez vos voyages avec l'aide de l'IA. Itinéraires personnalisés, restaurants et cartes interactives.",
@@ -33,11 +34,17 @@
     "discoveryDesc": "Itinéraire, restaurant ou idée de voyage détaillée.",
     "destinationDetailTitle": "Itinéraire destination — Voyageur",
     "destinationDetailDesc": "Idées de séjour et itinéraire suggéré pour votre destination.",
+    "destinationPageTitle": "{{name}} — {{country}} | Voyageur",
+    "destinationPageDesc": "Itinéraire suggéré pour {{name}} ({{country}}). À partir de {{price}}. Démo Voyageur — aucune réservation réelle.",
+    "destinationSlugNotFoundTitle": "Destination introuvable — Voyageur",
+    "destinationSlugNotFoundDesc": "Cette fiche n’existe pas ou n’est plus disponible. Explorez nos destinations depuis l’accueil.",
     "loginTitle": "Connexion — Voyageur",
     "registerTitle": "Inscription — Voyageur",
     "adminTitle": "Administration — Voyageur",
     "profileTitle": "Mon profil — Voyageur",
     "profileDesc": "Gérez votre nom, votre e-mail et votre mot de passe.",
+    "favoritesTitle": "Mes favoris — Voyageur",
+    "favoritesDesc": "Destinations et suggestions enregistrées.",
     "notFoundTitle": "Page introuvable — Voyageur"
   },
   "skip": "Aller au contenu",
@@ -60,12 +67,40 @@
     "featAssistantDesc": "Décrivez vos envies : suggestions adaptées en quelques secondes.",
     "featMapTitle": "Carte interactive",
     "featMapDesc": "Visualisez lieux et inspirations sur une carte mondiale.",
-    "cta": "Découvrir"
+    "cta": "Découvrir",
+    "carouselPrev": "Slide précédent",
+    "carouselNext": "Slide suivant"
+  },
+  "assistant": {
+    "pageKicker": "Assistant IA",
+    "pageTitle": "Votre guide de voyage intelligent",
+    "pageDesc": "Décrivez votre voyage idéal : nous suggérons itinéraires, restaurants et activités à partir de vos données.",
+    "searchPlaceholder": "Décrivez votre voyage idéal…",
+    "suggest": "Suggérer",
+    "suggesting": "Recherche…",
+    "exampleHint": "Exemple : « Je veux visiter le Portugal en famille pendant 5 jours, avec des plages et de la bonne cuisine. »",
+    "loadingSuggestions": "Chargement des suggestions…",
+    "apiErrorTitle": "L’API des suggestions est indisponible.",
+    "apiErrorDesc": "Les résultats affichés proviennent du filtre local sur des données de démonstration."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "description": "Cette adresse ne correspond à aucune page de Voyageur.",
+    "cta": "Retour à l’accueil"
+  },
+  "suggestionDetail": {
+    "backAssistant": "Retour à l’assistant",
+    "notFound": "Cette suggestion n’a pas été trouvée.",
+    "noneSelected": "Aucune suggestion sélectionnée.",
+    "loading": "Chargement…",
+    "summaryTitle": "À retenir"
   },
   "map": {
     "loading": "Chargement de la carte…",
     "section": "Carte interactive",
-    "title": "Vos destinations en un coup d'œil"
+    "title": "Vos destinations en un coup d'œil",
+    "errorTitle": "Carte : données serveur indisponibles.",
+    "errorDesc": "Les marqueurs affichés sont des données locales de secours."
   },
   "admin": {
     "title": "Administration",
@@ -79,6 +114,7 @@
     "labelTitle": "Titre",
     "labelBody": "Message",
     "placeholderBody": "Contenu affiché dans la cloche de notification…",
+    "labelActionUrl": "Lien (optionnel, chemin interne ou URL)",
     "labelType": "Type",
     "typeInfo": "Information",
     "typeSuccess": "Succès",
@@ -113,7 +149,95 @@
   "notif": {
     "markAllRead": "Tout marquer lu",
     "empty": "Aucune notification",
-    "markRead": "Marquer comme lu"
+    "markRead": "Marquer comme lu",
+    "openLink": "Ouvrir"
+  },
+  "trustStrip": {
+    "secureTitle": "Paiement sécurisé",
+    "secureDesc": "Connexion chiffrée pour vos réservations (démo).",
+    "cancelTitle": "Annulation flexible",
+    "cancelDesc": "Conditions variables selon l’offre — à confirmer avant paiement.",
+    "reviewsTitle": "Avis et notes",
+    "reviewsDesc": "Notes agrégées et retours voyageurs pour vous guider.",
+    "disclaimer": "* Comportement type grande OTA : données et libellés sont illustratifs dans cette application de démonstration."
+  },
+  "destinationsPage": {
+    "pageKicker": "Destinations",
+    "pageTitle": "Explorez le monde",
+    "pageDesc": "Recherchez une région ou un pays, affinez par budget et par thématique, puis comparez les séjours et les avis pour préparer votre voyage."
+  },
+  "destinationsSearch": {
+    "formAria": "Rechercher une destination",
+    "placeholder": "Destination, pays ou région",
+    "datesFlexible": "Dates flexibles",
+    "clearDates": "Effacer les dates",
+    "guests": "Voyageurs",
+    "guestsCount": "{{count}} adulte(s)",
+    "submit": "Rechercher",
+    "hint": "Les dates et le nombre de voyageurs sont mémorisés localement pour l’interface (aucune réservation réelle).",
+    "clearQuery": "Effacer la recherche"
+  },
+  "destinationsGrid": {
+    "kicker": "Destinations tendance",
+    "title": "Où partir cette saison ?",
+    "resultsKicker": "Votre sélection",
+    "resultsTitle": "Affinez par budget, tri et thématique",
+    "filtersTitle": "Filtres",
+    "filtersAsideAria": "Filtres des résultats",
+    "tagSectionLabel": "Thématique",
+    "filterAll": "Tous",
+    "loading": "Chargement des destinations…",
+    "emptyFilter": "Aucune destination ne correspond à ces critères. Essayez d’élargir la recherche ou le budget.",
+    "resultCount": "{{count}} séjours correspondant à vos critères",
+    "sortLabel": "Trier par",
+    "sortRecommended": "Les plus recommandés",
+    "sortPriceAsc": "Prix croissant",
+    "sortPriceDesc": "Prix décroissant",
+    "sortRating": "Meilleures notes",
+    "sortName": "Nom (A–Z)",
+    "priceLabel": "Budget (à partir de)",
+    "priceAll": "Tous",
+    "priceLt600": "Moins de 600 €",
+    "price6001500": "600 – 1 500 €",
+    "priceGt1500": "Plus de 1 500 €",
+    "viewersRecent": "{{count}} voyageurs ont consulté cette fiche ces dernières 24 h (indicatif)",
+    "reviewsShort": "{{formatted}} avis",
+    "priceFootnote": "Prix indicatif pour 2 voyageurs · séjour d’une semaine (démo).",
+    "ctaItinerary": "Voir l’itinéraire",
+    "viewToggleAria": "Mode d’affichage des résultats",
+    "viewGridAria": "Grille",
+    "viewListAria": "Liste",
+    "mapSectionTitle": "Sur la carte",
+    "mapSectionHint": "Survolez un repère pour voir le prix indicatif. Cliquez pour ouvrir la fiche.",
+    "mapOpenFullMap": "Grande carte interactive",
+    "mapPopupCta": "Voir la fiche"
+  },
+  "destinationDetail": {
+    "notFound": "Destination introuvable.",
+    "backHome": "Retour à l’accueil",
+    "reviewsWord": "avis",
+    "viewersRecent": "{{count}} voyageurs ont consulté cette page récemment (indicatif).",
+    "reviewsHeadline": "Note {{rating}} / 5 · {{formatted}} avis voyageurs",
+    "reviewsDemo": "Les avis sont agrégés à titre illustratif pour cette démonstration.",
+    "itineraryTitle": "Itinéraire suggéré",
+    "ctaMap": "Voir sur la carte",
+    "ctaAssistant": "Assistant IA",
+    "demoDisclaimer": "Tarifs, disponibilités, affluence et avis sont fictifs ou simplifiés : cette application n’est pas une plateforme de réservation."
+  },
+  "favorites": {
+    "add": "Ajouter aux favoris",
+    "remove": "Retirer des favoris",
+    "title": "Mes favoris",
+    "subtitle": "Vos destinations et idées enregistrées.",
+    "empty": "Aucun favori pour le moment. Ajoutez des cœurs depuis les cartes ou l’assistant IA.",
+    "loading": "Chargement…",
+    "loadError": "Impossible de charger les favoris",
+    "loadErrorDesc": "Vérifiez que vous êtes connecté et que l’API répond.",
+    "sectionDestinations": "Destinations",
+    "sectionSuggestions": "Suggestions",
+    "open": "Voir l’itinéraire",
+    "openDetail": "Voir le détail",
+    "reviewLine": "{{formatted}} avis"
   },
   "profile": {
     "title": "Mon profil",
@@ -139,6 +263,14 @@
     "passwordTooShort": "Le nouveau mot de passe doit faire au moins 8 caractères",
     "passwordMismatch": "Les nouveaux mots de passe ne correspondent pas",
     "showPassword": "Afficher le mot de passe",
-    "hidePassword": "Masquer le mot de passe"
+    "hidePassword": "Masquer le mot de passe",
+    "activityTitle": "Activité",
+    "activitySubtitle": "Vos favoris et raccourcis",
+    "activityEmpty": "Ajoutez des cœurs sur les destinations ou les suggestions de l’assistant pour les retrouver ici.",
+    "activityLoading": "Chargement…",
+    "activityError": "Impossible de charger l’activité pour le moment.",
+    "activityOne": "1 favori enregistré.",
+    "activityMany": "{{count}} favoris enregistrés.",
+    "activityCta": "Voir tous mes favoris"
   }
 }
