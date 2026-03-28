@@ -9,4 +9,7 @@ export const destinationImages: Record<string, string> = {
   kyoto: kyotoImg,
   marrakech: marrakechImg,
   patagonia: patagoniaImg,
+  /** Placeholders visuels jusqu’à ajout d’images dédiées (Lisbonne / Porto) */
+  lisbon: marrakechImg,
+  porto: santoriniImg,
 };

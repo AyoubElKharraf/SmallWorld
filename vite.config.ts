@@ -22,7 +22,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["favicon.png"],
+      includeAssets: ["favicon.svg"],
       manifest: {
         name: "Voyageur — SmallWorld",
         short_name: "Voyageur",
@@ -33,10 +33,10 @@ export default defineConfig({
         start_url: "/",
         icons: [
           {
-            src: "/favicon.png",
-            sizes: "512x512",
-            type: "image/png",
-            purpose: "any maskable",
+            src: "/favicon.svg?v=5",
+            sizes: "any",
+            type: "image/svg+xml",
+            purpose: "any",
           },
         ],
       },

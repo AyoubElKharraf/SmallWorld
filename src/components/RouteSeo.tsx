@@ -39,7 +39,7 @@ export const RouteSeo = () => {
     }
   })();
 
-  const ogImage = siteUrl ? `${siteUrl}/favicon.png` : "/favicon.png";
+  const ogImage = siteUrl ? `${siteUrl}/favicon.svg?v=5` : "/favicon.svg?v=5";
 
   return (
     <Helmet htmlAttributes={{ lang }} prioritizeSeoTags>

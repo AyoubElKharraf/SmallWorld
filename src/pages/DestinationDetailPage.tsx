@@ -16,11 +16,12 @@ import { AvailabilityBadge } from "@/components/AvailabilityBadge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { PageBackLink } from "@/components/layout/PageBackLink";
 import { PageShell } from "@/components/layout/PageShell";
+import { BookingDemoDialog } from "@/components/BookingDemoDialog";
 
 const siteUrl = import.meta.env.VITE_SITE_URL?.replace(/\/$/, "") ?? "";
 
 function absoluteOgImage(asset: string | undefined): string {
-  const fallback = siteUrl ? `${siteUrl}/favicon.png` : "/favicon.png";
+  const fallback = siteUrl ? `${siteUrl}/favicon.svg?v=5` : "/favicon.svg?v=5";
   if (!asset) return fallback;
   if (asset.startsWith("http")) return asset;
   const path = asset.startsWith("/") ? asset : `/${asset}`;
@@ -164,22 +165,30 @@ const DestinationDetailPage = () => {
                       {dest.country}
                     </p>
                   </div>
-                  <div className="flex flex-col items-end gap-1 rounded-xl bg-card/90 px-3 py-2 text-right backdrop-blur-sm">
-                    <div className="flex items-center gap-2">
-                      <Star className="h-4 w-4 fill-accent text-accent" aria-hidden />
-                      <span className="font-medium tabular-nums text-foreground">{rating}</span>
-                      {reviewFormatted && (
-                        <span className="text-xs text-muted-foreground">
-                          ({reviewFormatted} {t("destinationDetail.reviewsWord")})
-                        </span>
-                      )}
+                  <div className="flex flex-col items-end gap-2">
+                    <div className="flex flex-col items-end gap-1 rounded-xl bg-card/90 px-3 py-2 text-right backdrop-blur-sm">
+                      <div className="flex items-center gap-2">
+                        <Star className="h-4 w-4 fill-accent text-accent" aria-hidden />
+                        <span className="font-medium tabular-nums text-foreground">{rating}</span>
+                        {reviewFormatted && (
+                          <span className="text-xs text-muted-foreground">
+                            ({reviewFormatted} {t("destinationDetail.reviewsWord")})
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex flex-wrap items-baseline justify-end gap-2">
+                        {dest.price_was_label && (
+                          <span className="text-sm text-muted-foreground line-through">{dest.price_was_label}</span>
+                        )}
+                        <span className="text-sm font-semibold text-foreground">{dest.price}</span>
+                      </div>
                     </div>
-                    <div className="flex flex-wrap items-baseline justify-end gap-2">
-                      {dest.price_was_label && (
-                        <span className="text-sm text-muted-foreground line-through">{dest.price_was_label}</span>
-                      )}
-                      <span className="text-sm font-semibold text-foreground">{dest.price}</span>
-                    </div>
+                    <BookingDemoDialog
+                      variant="hero"
+                      destinationName={dest.name}
+                      priceLabel={dest.price}
+                      availabilityLabel={dest.availability}
+                    />
                   </div>
                 </div>
               </div>
@@ -233,7 +242,15 @@ const DestinationDetailPage = () => {
               <div className="whitespace-pre-line text-pretty text-base leading-relaxed text-muted-foreground">
                 {itineraryForSlug(slug, dest.name)}
               </div>
-              <div className="mt-10 flex flex-wrap gap-3">
+              <div className="mt-10 flex flex-wrap items-center gap-3">
+                {!img && (
+                  <BookingDemoDialog
+                    variant="hero"
+                    destinationName={dest.name}
+                    priceLabel={dest.price}
+                    availabilityLabel={dest.availability}
+                  />
+                )}
                 <Link
                   to="/carte"
                   className="inline-flex items-center justify-center rounded-xl bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-95"

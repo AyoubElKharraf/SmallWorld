@@ -31,6 +31,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { PageShell } from "@/components/layout/PageShell";
+import { BookingDemoDialog } from "@/components/BookingDemoDialog";
 import { DestinationsResultsMap } from "@/components/DestinationsResultsMap";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { cn } from "@/lib/utils";
@@ -422,6 +423,14 @@ const DestinationsGrid = () => {
                     <p className="text-xs text-muted-foreground">{t("destinationsGrid.priceFootnote")}</p>
                   </div>
                 </Link>
+                <div className="mt-2 flex justify-end">
+                  <BookingDemoDialog
+                    variant="card"
+                    destinationName={dest.name}
+                    priceLabel={dest.price}
+                    availabilityLabel={dest.availability}
+                  />
+                </div>
               </motion.div>
             );
           })}
@@ -453,10 +462,11 @@ const DestinationsGrid = () => {
                       targetKey={`dest:${dest.slug}`}
                       className="absolute right-3 top-3 z-20"
                     />
+                    <div className="overflow-hidden rounded-2xl border border-border/70 bg-card/40">
                     <Link
                       to={to}
                       aria-label={`Voir l’itinéraire : ${dest.name}, ${dest.country}`}
-                      className="group flex flex-col gap-4 rounded-2xl border border-border/70 bg-card/40 p-3 transition-colors hover:border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex-row sm:items-stretch sm:gap-5 sm:p-4"
+                      className="group flex flex-col gap-4 p-3 transition-colors hover:bg-card/60 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring sm:flex-row sm:items-stretch sm:gap-5 sm:p-4"
                     >
                       <div className="relative h-44 w-full shrink-0 overflow-hidden rounded-xl sm:h-[9.5rem] sm:w-[12.5rem]">
                         <img
@@ -523,6 +533,15 @@ const DestinationsGrid = () => {
                         </div>
                       </div>
                     </Link>
+                    <div className="flex justify-end border-t border-border/50 bg-card/20 px-4 py-2.5 sm:px-5">
+                      <BookingDemoDialog
+                        variant="card"
+                        destinationName={dest.name}
+                        priceLabel={dest.price}
+                        availabilityLabel={dest.availability}
+                      />
+                    </div>
+                    </div>
                   </motion.li>
                 );
               })}

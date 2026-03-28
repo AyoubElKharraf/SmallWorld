@@ -2,7 +2,7 @@
 
 **Plateforme web full-stack** de planification de voyage : catalogue de destinations façon **OTA (démo)**, **assistant IA** pour suggestions d’itinéraires et de lieux, **cartes Leaflet** (carte monde + carte des résultats filtrés), **authentification** JWT (clients / administrateurs), **profil**, **favoris**, **notifications** et **dashboard admin**.
 
-> **Démonstration** : tarifs, disponibilités, avis et affluence sont **fictifs ou simplifiés** ; **aucune réservation réelle** n’est effectuée.
+> **Démonstration** : tarifs, disponibilités, avis et affluence sont **fictifs ou simplifiés** ; **aucune réservation réelle** n’est effectuée. Le flux « Réserver » ouvre une **modale explicative** (récap indicatif, 3 étapes type agence de voyage, liens vers l’assistant et la carte).
 
 | | |
 |---|---|
@@ -35,8 +35,9 @@
 | Zone | Description |
 |------|-------------|
 | **Accueil** | Hero, recherche (préférences mémorisées côté client), liens rapides |
-| **Destinations** | Barre de recherche ; **bandeau confiance** ; **sidebar filtres** (tri, budget, thématique) en `lg+` ; **vue grille** ou **liste** via `?view=list` ; **carte** des destinations encore affichées après filtres (prix au survol, popup avec lien fiche) |
-| **Fiche destination** | Prix indicatifs, avis, disponibilité, itinéraire suggéré ; **SEO dynamique** (titre, description, Open Graph, canonical si `VITE_SITE_URL`) — **FR / EN** |
+| **Destinations** | Barre de recherche ; **bandeau confiance** ; **sidebar filtres** (tri, budget, thématique) en `lg+` ; **vue grille** ou **liste** (`?view=list`) ; **carte** des destinations filtrées (prix au survol, popup vers la fiche) ; bouton **Réserver (démo)** sur chaque carte (hors lien principal pour l’accessibilité) |
+| **Fiche destination** | Prix indicatifs, badges, disponibilité, avis, itinéraire suggéré ; **CTA Réserver (démo)** dans le **hero** (si image) ou avec les actions Carte / Assistant ; **SEO dynamique** (titre, description, Open Graph, canonical si `VITE_SITE_URL`) — **FR / EN** |
+| **Favoris** | Destinations enregistrées avec **Réserver (démo)** par carte |
 | **Assistant IA** | Suggestions (API ; repli sur données locales si l’API est indisponible) |
 | **Carte** | Marqueurs avec **clustering** ; données API ou jeu de secours |
 | **Compte** | Inscription / connexion JWT, profil, **favoris** (destinations + suggestions) |
@@ -109,7 +110,7 @@ Dans `server/` : `npm run dev`, `npm start`, `npm run seed:admin`.
 
 - **SPA** React ; en développement, le **proxy Vite** (`vite.config.ts`) proxifie `/api` vers `http://127.0.0.1:3001`.
 - **API** Express sous `/api`. Si `SERVE_STATIC_DIR` pointe vers le dossier `dist/` du build Vite, **une seule origine** sert le SPA et l’API.
-- **Schéma** : `server/db/init.sql` ; évolutions dans `server/db/migration_*.sql` (favoris / notifications, disponibilité, champs type OTA sur `destinations`, etc.).
+- **Schéma** : `server/db/init.sql` ; évolutions dans `server/db/migration_*.sql` (favoris / notifications, disponibilité, champs type OTA sur `destinations`, enrichissement démo, etc.).
 
 ---
 
@@ -140,6 +141,7 @@ Bases **déjà existantes** : appliquer les migrations dans l’ordre indiqué d
 | `server/db/migration_20260328_favorites_notifications.sql` | Favoris + `action_url` sur les notifications |
 | `server/db/migration_20260328_destinations_availability.sql` | Colonne `availability` |
 | `server/db/migration_20260328_booking_style_destinations.sql` | Champs type OTA (notes, prix, badges, affluence, etc.) |
+| `server/db/migration_20260328_demo_enrichment.sql` | Données démo supplémentaires (destinations, carte, suggestions, recherches) si la base existe déjà |
 
 ### 2. API
 
@@ -294,4 +296,4 @@ Le workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) s’exécute 
 
 ## Licence
 
-Usage selon les mainteneurs du projet ; consulter le fichier **`LICENSE`** à la racine s’il est présent.
+Usage selon les mainteneurs du projet. Aucun fichier `LICENSE` n’est fourni à la racine pour l’instant ; en cas d’ajout, il prévaudra sur ce paragraphe.

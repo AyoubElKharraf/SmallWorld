@@ -77,6 +77,36 @@ export const FALLBACK_DESTINATIONS: DestinationRow[] = [
     viewers_recent: 7,
     sort_order: 4,
   },
+  {
+    slug: "lisbon",
+    name: "Lisbonne",
+    country: "Portugal",
+    rating: 4.8,
+    price: "À partir de 450€",
+    tag: "City trip",
+    availability: "Disponible",
+    review_count: 2100,
+    price_from_eur: 450,
+    price_was_label: "520€",
+    deal_badge: "Bon plan",
+    viewers_recent: 34,
+    sort_order: 5,
+  },
+  {
+    slug: "porto",
+    name: "Porto",
+    country: "Portugal",
+    rating: 4.7,
+    price: "À partir de 380€",
+    tag: "Romantique",
+    availability: "Disponible",
+    review_count: 892,
+    price_from_eur: 380,
+    price_was_label: null,
+    deal_badge: null,
+    viewers_recent: 15,
+    sort_order: 6,
+  },
 ];
 
 /** Classes pour badges de statut (aligné sur les libellés seed / admin). */
@@ -106,6 +136,14 @@ export const DESTINATION_ITINERARY: Record<string, string> = {
     "Jour 1 — El Calafate : découverte du village, lac Argentino.\n\n" +
     "Jour 2 — Perito Moreno : passerelles et navigation optionnelle.\n\n" +
     "Jour 3 — Trek ou navigation selon météo ; prévoir couches chaudes et vent.",
+  lisbon:
+    "Jour 1 — Alfama et Baixa : tram 28, château, Miradouro da Graça. Soirée fado.\n\n" +
+    "Jour 2 — Belém : tour, monuments, pastéis de nata. Time Out Market pour le déjeuner.\n\n" +
+    "Jour 3 — Sintra en excursion (Pena, Quinta da Regaleira) ou plages de Cascais.",
+  porto:
+    "Jour 1 — Ribeira et pont Dom Luís : quartier historique, croisière sur le Douro au coucher du soleil.\n\n" +
+    "Jour 2 — Caves de Vila Nova de Gaia, librairie Lello, café Majestic.\n\n" +
+    "Jour 3 — Plage de Foz ou Matosinhos (fruits de mer) ; dégustation de porto.",
 };
 
 export function itineraryForSlug(slug: string, destinationName: string): string {

@@ -27,6 +27,11 @@ const FALLBACK_MARKERS: MarkerRow[] = [
   { name: "Patagonie", lat: -50.3402, lng: -72.2648, info: "Argentine · 4.9★" },
   { name: "Lisbonne", lat: 38.7223, lng: -9.1393, info: "Portugal · 4.8★" },
   { name: "Porto", lat: 41.1579, lng: -8.6291, info: "Portugal · 4.7★" },
+  { name: "Barcelone", lat: 41.3851, lng: 2.1734, info: "Espagne · 4.8★" },
+  { name: "Reykjavik", lat: 64.1466, lng: -21.9426, info: "Islande · 4.9★" },
+  { name: "Dubrovnik", lat: 42.6507, lng: 18.0944, info: "Croatie · 4.7★" },
+  { name: "Copenhague", lat: 55.6761, lng: 12.5683, info: "Danemark · 4.8★" },
+  { name: "Bali", lat: -8.5069, lng: 115.2625, info: "Indonésie · 4.8★" },
 ];
 
 const fetchMarkers = async (): Promise<MarkerRow[]> => {
